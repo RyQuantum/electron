@@ -1,4 +1,4 @@
-const noble = require('noble')
+const noble = require('@abandonware/noble')
 
 class NobleWrapper {
     static getNoble() {
