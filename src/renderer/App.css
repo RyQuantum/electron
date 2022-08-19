@@ -9,6 +9,15 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+.days {
+  display: flex;
+  alignItems: center;
+}
+
+.days > span {
+  padding: 0.5em;
+}
+
 .site-layout .site-layout-background {
   background: #fff;
 }

@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import runner from "./BleLibrary/LibraryRunner";
+import runner from './BleLibrary/LibraryRunner';
 
 class AppUpdater {
   constructor() {
@@ -88,7 +88,6 @@ const createWindow = async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
-    const runner = require('./BleLibrary/LibraryRunner');
     runner.on('foundDevice', lockData => mainWindow.webContents.send('foundDevice', lockData));
     ipcMain.on('refresh', () => runner.startScan());
     ipcMain.on('selectDevice', (event, lockMac) => runner.selectDevice(lockMac));
@@ -98,6 +97,8 @@ const createWindow = async () => {
     runner.on('unlockRes', res => mainWindow.webContents.send('unlockRes', res));
     ipcMain.on('lock', runner.lock);
     runner.on('lockRes', res => mainWindow.webContents.send('lockRes', res));
+    ipcMain.on('addCyclicPasscode', (event, params) => runner.addCyclicPasscode(params));
+    runner.on('addCyclicPasscodeRes', res => mainWindow.webContents.send('addCyclicPasscodeRes', res));
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
